@@ -1,5 +1,5 @@
 from langchain_community.document_loaders.pdf import PyPDFium2Loader
-from demo.vdb import connect_to_mongodb
+from demo.vdb import get_hybrid_db_connection
 import os
 from dotenv import load_dotenv
 from langchain_cohere import CohereEmbeddings
@@ -16,10 +16,9 @@ path_to_file = "Garfield.pdf"
 docs = PyPDFium2Loader(file_path=path_to_file).load()
 
 # load the vdb
-mongo_db = connect_to_mongodb(embedding=embedding)
+mongo_db = get_hybrid_db_connection(embedding=embedding)
 
 # Upload the documents to the vector store.
-mongo_db.add_documents(docs)
 
 
 

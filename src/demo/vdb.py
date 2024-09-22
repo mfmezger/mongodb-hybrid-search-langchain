@@ -1,6 +1,6 @@
 import os
 
-from langchain_cohere import CohereEmbedding
+from langchain_cohere import CohereEmbeddings
 from dotenv import load_dotenv
 from langchain_mongodb import MongoDBAtlasVectorSearch
 from langchain_mongodb.retrievers import MongoDBAtlasHybridSearchRetriever
@@ -9,7 +9,7 @@ from pymongo import MongoClient
 load_dotenv(override=True)
 
 
-def connect_to_mongodb(embedding: CohereEmbedding) -> MongoDBAtlasHybridSearchRetriever:
+def connect_to_mongodb(embedding: CohereEmbeddings) -> MongoDBAtlasVectorSearch:
     """Create a MongoDBAtlasHybridSearchRetriever.
 
     Returns:
@@ -20,12 +20,17 @@ def connect_to_mongodb(embedding: CohereEmbedding) -> MongoDBAtlasHybridSearchRe
     collection = client[os.getenv("MONGODB_DB_NAME")][os.getenv("MONGODB_COLLECTION_NAME")]
 
     # Create the vector store connection with MONGODB Atlas.
-    vector_db = MongoDBAtlasVectorSearch(
+    return MongoDBAtlasVectorSearch(
         collection=collection,
         embedding=embedding,
         index_name=os.getenv("VECTOR_SEARCH_INDEX_NAME"),
     )
 
+
+def get_hybrid_db_connection(embedding: CohereEmbeddings) -> MongoDBAtlasHybridSearchRetriever:
+
+    # Create the MongoDB connection.
+    vector_db = connect_to_mongodb(embedding=embedding)
 
     # for filtering the results, e.g. removing unnecessary fields.
     post_filter_pipeline = [
@@ -35,8 +40,6 @@ def connect_to_mongodb(embedding: CohereEmbedding) -> MongoDBAtlasHybridSearchRe
             }
         }
     ]
-
-
     hybrid_db = MongoDBAtlasHybridSearchRetriever(
         vectorstore=vector_db,
         search_index_name=os.getenv("FULL_TEXT_SEACH_INDEX_NAME", ""),
