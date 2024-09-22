@@ -7,7 +7,7 @@
     {
       "type": "vector",
       "path": "embedding",
-      "numDimensions": ,
+      "numDimensions": 384, # you need to pick the right number of dimensions for your embeddings
       "similarity": "cosine"
     }
   ]
