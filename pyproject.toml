@@ -5,7 +5,9 @@ description = "Add your description here"
 authors = [
     { name = "Marc Fabian Mezger", email = "marc.mezger@googlemail.com" }
 ]
-dependencies = []
+dependencies = [
+    "langchain-mongodb>=0.2.0",
+]
 readme = "README.md"
 requires-python = ">= 3.8"
 
