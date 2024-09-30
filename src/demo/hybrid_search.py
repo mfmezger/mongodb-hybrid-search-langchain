@@ -1,19 +1,24 @@
-from demo.vdb import get_hybrid_db_connection
-from langchain_mongodb.retrievers import MongoDBAtlasHybridSearchRetriever
+"""Example for Hybrid Search."""
+
+from typing import TYPE_CHECKING
+
 from dotenv import load_dotenv
-from loguru import logger
 from langchain_cohere import CohereEmbeddings
+from loguru import logger
+
+from demo.vdb import get_hybrid_db_connection
+
+if TYPE_CHECKING:
+    from langchain_mongodb.retrievers import MongoDBAtlasHybridSearchRetriever
 
 load_dotenv(override=True)
 
 
-
-def main():
+def main() -> None:
+    """Example of how to retrieve with MongoDBHybrid search."""
     # load the vdb
     embedding = CohereEmbeddings(model="embed-english-light-v3.0")
-    mongo_db: MongoDBAtlasHybridSearchRetriever = get_hybrid_db_connection(
-        embedding=embedding
-    )
+    mongo_db: MongoDBAtlasHybridSearchRetriever = get_hybrid_db_connection(embedding=embedding)
 
     results = mongo_db.invoke({"Who inventend Garfield?"})
 
@@ -22,6 +27,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
