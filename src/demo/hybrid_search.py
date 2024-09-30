@@ -11,6 +11,7 @@ from demo.vdb import get_hybrid_db_connection
 if TYPE_CHECKING:
     from langchain_mongodb.retrievers import MongoDBAtlasHybridSearchRetriever
 
+# loading the environment variables.
 load_dotenv(override=True)
 
 
@@ -20,8 +21,10 @@ def main() -> None:
     embedding = CohereEmbeddings(model="embed-english-light-v3.0")
     mongo_db: MongoDBAtlasHybridSearchRetriever = get_hybrid_db_connection(embedding=embedding)
 
+    # invoking the chain for retrieval.
     results = mongo_db.invoke({"Who inventend Garfield?"})
 
+    # logging the search results.
     logger.info(results)
 
 
