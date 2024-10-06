@@ -1,0 +1,40 @@
+# # See https://pre-commit.com for more information
+# # See https://pre-commit.com/hooks.html for more hooks
+repos:
+    - repo: https://github.com/astral-sh/ruff-pre-commit
+      # Ruff version.
+      rev: v0.6.1
+      hooks:
+          # Run the linter.
+          - id: ruff
+            args: [--fix]
+          # Run the formatter.
+          - id: ruff-format
+
+    - repo: https://github.com/pre-commit/pre-commit-hooks
+      rev: v4.6.0
+      hooks:
+          - id: trailing-whitespace
+          - id: end-of-file-fixer
+            # exlude j2
+            exclude: ^.*\.j2$
+          - id: check-yaml
+          - id: check-added-large-files
+            args: ["--maxkb=5000"]
+          - id: check-ast
+          - id: check-docstring-first
+          - id: detect-private-key
+
+    - repo: https://github.com/adamchainz/blacken-docs
+      rev: 1.18.0 # replace with latest tag on GitHub
+      hooks:
+          - id: blacken-docs
+            additional_dependencies:
+                - black==22.12.0
+
+    # shows old code and how to update it
+    - repo: https://github.com/asottile/pyupgrade
+      rev: v3.17.0
+      hooks:
+          - id: pyupgrade
+            args: [--py310-plus]

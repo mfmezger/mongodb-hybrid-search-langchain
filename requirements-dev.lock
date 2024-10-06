@@ -49,8 +49,6 @@ frozenlist==1.4.1
     # via aiosignal
 fsspec==2024.9.0
     # via huggingface-hub
-greenlet==3.1.1
-    # via sqlalchemy
 h11==0.14.0
     # via httpcore
 httpcore==1.0.5
@@ -97,6 +95,8 @@ langsmith==0.1.125
     # via langchain
     # via langchain-community
     # via langchain-core
+loguru==0.7.2
+    # via demo
 marshmallow==3.22.0
     # via dataclasses-json
 multidict==6.1.0

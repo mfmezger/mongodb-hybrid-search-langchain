@@ -1,7 +1,9 @@
+"""Vector Database Connection."""
+
 import os
 
-from langchain_cohere import CohereEmbeddings
 from dotenv import load_dotenv
+from langchain_cohere import CohereEmbeddings
 from langchain_mongodb import MongoDBAtlasVectorSearch
 from langchain_mongodb.retrievers import MongoDBAtlasHybridSearchRetriever
 from pymongo import MongoClient
@@ -12,8 +14,10 @@ load_dotenv(override=True)
 def connect_to_mongodb(embedding: CohereEmbeddings) -> MongoDBAtlasVectorSearch:
     """Create a MongoDBAtlasHybridSearchRetriever.
 
-    Returns:
+    Returns
+    -------
         MongoDBAtlasHybridSearchRetriever: Hybrid Search with MongoDB Atlas.
+
     """
     # Create the MongoDB connection.
     client: MongoClient = MongoClient(os.getenv("MONGODB_ATLAS_CLUSTER_URI"))
@@ -28,7 +32,17 @@ def connect_to_mongodb(embedding: CohereEmbeddings) -> MongoDBAtlasVectorSearch:
 
 
 def get_hybrid_db_connection(embedding: CohereEmbeddings) -> MongoDBAtlasHybridSearchRetriever:
+    """_summary_.
 
+    Args:
+    ----
+        embedding (CohereEmbeddings): _description_
+
+    Returns:
+    -------
+        MongoDBAtlasHybridSearchRetriever: _description_
+
+    """
     # Create the MongoDB connection.
     vector_db = connect_to_mongodb(embedding=embedding)
 
@@ -40,11 +54,9 @@ def get_hybrid_db_connection(embedding: CohereEmbeddings) -> MongoDBAtlasHybridS
             }
         }
     ]
-    hybrid_db = MongoDBAtlasHybridSearchRetriever(
+    return MongoDBAtlasHybridSearchRetriever(
         vectorstore=vector_db,
         search_index_name=os.getenv("FULL_TEXT_SEACH_INDEX_NAME", ""),
-        top_k=10, # Number of documents to retrieve.
+        top_k=10,  # Number of documents to retrieve.
         post_filter=post_filter_pipeline,
     )
-
-    return hybrid_db

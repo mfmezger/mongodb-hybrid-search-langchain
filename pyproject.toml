@@ -9,6 +9,7 @@ dependencies = [
     "langchain-mongodb>=0.2.0",
     "langchain-cohere>=0.3.0",
     "pypdfium2>=4.30.0",
+    "loguru>=0.7.2",
 ]
 readme = "README.md"
 requires-python = ">= 3.8"

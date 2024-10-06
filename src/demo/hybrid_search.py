@@ -1,24 +1,32 @@
-from langchain_community.document_loaders.pdf import PyPDFium2Loader
-from demo.vdb import get_hybrid_db_connection
-import os
+"""Example for Hybrid Search."""
+
+from typing import TYPE_CHECKING
+
 from dotenv import load_dotenv
 from langchain_cohere import CohereEmbeddings
+from loguru import logger
 
+from demo.vdb import get_hybrid_db_connection
+
+if TYPE_CHECKING:
+    from langchain_mongodb.retrievers import MongoDBAtlasHybridSearchRetriever
+
+# loading the environment variables.
 load_dotenv(override=True)
 
 
-embedding = CohereEmbeddings(model="embed-english-light-v3.0")
+def main() -> None:
+    """Example of how to retrieve with MongoDBHybrid search."""
+    # load the vdb
+    embedding = CohereEmbeddings(model="embed-english-light-v3.0")
+    mongo_db: MongoDBAtlasHybridSearchRetriever = get_hybrid_db_connection(embedding=embedding)
+
+    # invoking the chain for retrieval.
+    results = mongo_db.invoke({"Who inventend Garfield?"})
+
+    # logging the search results.
+    logger.info(results)
 
 
-path_to_file = "Garfield.pdf"
-
-# Load the PDF file.
-docs = PyPDFium2Loader(file_path=path_to_file).load()
-
-# load the vdb
-mongo_db = get_hybrid_db_connection(embedding=embedding)
-
-# Upload the documents to the vector store.
-
-
-
+if __name__ == "__main__":
+    main()
