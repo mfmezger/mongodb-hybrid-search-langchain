@@ -10,6 +10,7 @@ dependencies = [
     "langchain-cohere>=0.3.0",
     "pypdfium2>=4.30.0",
     "loguru>=0.7.2",
+    "python-dotenv>=1.0.1",
 ]
 readme = "README.md"
 requires-python = ">= 3.8"

@@ -22,7 +22,7 @@ def main() -> None:
     mongo_db: MongoDBAtlasHybridSearchRetriever = get_hybrid_db_connection(embedding=embedding)
 
     # invoking the chain for retrieval.
-    results = mongo_db.invoke({"Who inventend Garfield?"})
+    results = mongo_db.invoke("Who inventend Garfield?")
 
     # logging the search results.
     logger.info(results)
