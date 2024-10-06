@@ -15,6 +15,8 @@ or with pip:
 pip install -r requirements.lock
 ```
 
+Convert the template.env to .env and fill in the necessary values.
+
 
 ## Atlas Search Setup JSONs
 
